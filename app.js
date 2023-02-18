@@ -1,6 +1,7 @@
 const express = require("express")
 const exphbs = require("express-handlebars")
 const methodOverride = require("method-override")
+const flash = require('connect-flash')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -24,6 +25,15 @@ app.use(express.urlencoded({ extended: true }))
 
 // 引用連線mongoose的檔案，對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數。
 require("./config/mongoose")
+
+
+app.use(flash())
+
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg') // 設定 success_msg 訊息
+  res.locals.warning_msg = req.flash('warning_msg') // 設定 warning_msg 訊息
+  next()
+})
 
 // 設定路由
 app.use(routes)
