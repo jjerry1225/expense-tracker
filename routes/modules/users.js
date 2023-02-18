@@ -9,12 +9,11 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post("/login", (req, res) => {
-  passport.authenticate("local", {
+router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/users/login",
   })
-});
+);
 
 router.get("/register", (req, res) => {
   res.render("register");
@@ -54,13 +53,16 @@ router.post("/register", (req, res) => {
         email,
         password: hash,  // 用雜湊值取代原本的使用者密碼
       }))
-      .then(() => res.redirect('/'))
+      .then(() => {
+        req.flash("success_msg", "註冊成功，請登入!")
+        res.redirect('/users/login')
+      })
       .catch(err => console.log(err))
   })
 })
 
 // req.logout() 是 Passport.js 提供的函式，會幫你清除 session。(清除登入狀態)
-router.get("logout", (req, res) => {
+router.get("/logout", (req, res) => {
   req.logout(),
   req.flash("success_msg", "您已成功登出。")
   res.redirect("/users/login");

@@ -39,7 +39,7 @@ db.once("open", async () => {
       })
     }
 
-    console.log('record seeds done!')
+    console.log('record and user seeds done!')
     process.exit()
   } catch {
     console.log(error)

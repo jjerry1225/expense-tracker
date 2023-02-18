@@ -9,14 +9,15 @@ const dayjs = require("dayjs");
 
 router.get("/", async (req, res) => {
   try {
+    const userId = req.user._id
     const filter = req.query.filter;
     const categories = await Category.find().lean().sort({ _id: "asc" }); // 正序為asc；反序為desc
     let totalAmount = 0
     
     //使用三元運算子區分「是否有使用分類」功能
     const records = filter
-      ? await Record.find({ categoryId: filter }).lean().sort({ _id: "asc" })
-      : await Record.find().lean().sort({ _id: "asc" }); // 正序為asc；反序為desc
+      ? await Record.find({ categoryId: filter, userId}).lean().sort({ _id: "asc" })
+      : await Record.find({ userId }).lean().sort({ _id: "asc" }); // 正序為asc；反序為desc
 
     //使用 dayjs 調整日期格式
     records.forEach((element) => {
