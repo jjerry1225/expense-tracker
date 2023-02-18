@@ -12,6 +12,9 @@ const usePassport = require('./config/passport')
 const app = express()
 const PORT = process.env.PORT
 
+// 引用連線mongoose的檔案，對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數。
+require("./config/mongoose")
+
 // 引用路由器，路徑設定為 /routes 就會自動去尋找目錄下叫做 index 的檔案。
 const routes = require("./routes")
 
@@ -30,9 +33,6 @@ app.use(methodOverride("_method"))
 
 // setting body-parser
 app.use(express.urlencoded({ extended: true }))
-
-// 引用連線mongoose的檔案，對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數。
-require("./config/mongoose")
 
 usePassport(app)
 
