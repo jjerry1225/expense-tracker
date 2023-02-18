@@ -3,7 +3,7 @@
     <!--篩選功能-->
     <div class="mb-3">
       <form action="/">
-        <select name="filter" class="form-select" aria-label="Default select example" onchange="this.form.submit()">
+        <select name="filter" id="filter" class="form-select" aria-label="Default select example" onchange="this.form.submit()">
           <option value="0" {{#if filter}} selected {{/if}}>請選擇類別</option>
           {{#each categories}}
           <option value="{{this._id}}" {{#if filter}} selected {{/if}}>{{this.name}}</option>

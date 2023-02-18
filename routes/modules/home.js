@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
       totalAmount += Number(records[i].amount)
     }
 
-    res.render("index", { records, categories, totalAmount });
+    res.render("index", { records, categories, totalAmount, filter });
   } catch {
     console.log(error);
   }
