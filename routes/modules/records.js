@@ -55,4 +55,16 @@ router.put("/:id", (req, res) => {
     .catch(error => console.log(error))
 })
 
+// 刪除資料
+router.delete("/:id", (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  Record.findOne({ _id, userId })
+    .then((record) => {
+      return record.remove()
+    })
+    .then(() => res.redirect("/"))
+    .catch(error => console.log(error))
+})
+
 module.exports = router;
