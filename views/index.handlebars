@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <!--篩選功能-->
+    <div class="mb-3">
+      <form action="/">
+        <select name="filter" class="form-select" aria-label="Default select example" onchange="this.form.submit()">
+          <option value="0" {{#if filter}} selected {{/if}}>請選擇類別</option>
+          {{#each categories}}
+          <option value="{{this._id}}" {{#if filter}} selected {{/if}}>{{this.name}}</option>
+          {{/each}}
+        </select>
+      </form>
+    </div>
+    
+    <p class="ms-5 h5">總金額：</p>
+    <p class="mb-3 text-center display-4 text-warning">{{totalAmount}}</p>
+
+    {{!-- render 消費清單 --}}
+    {{#if records}}
+      <table class="table table-borderless table-striped">
+        <tbody>
+          {{#each records}}
+          <tr>
+            <th scope="row"><i class="fa-solid {{this.icon}} fa-4x"></i></th>
+            <td class="col-md-4" >
+              <div class="col-md-9">
+                <div class="d-flex">
+                  <h5 class="mb-1">{{this.name}}</h5>
+                </div>
+                <p>{{this.date}}</p>
+              </div>
+            </td>
+            <td class="col-md-4" align='center' valign="middle">
+              <p>{{this.amount}}</p>
+            </td>
+            <td class="col-md-2" align='center' valign="middle">
+              <a class="btn  btn-success" href="./records/{{ this._id }}/edit">修改</a>
+            </td>
+            <td class="col-md-2" align='center' valign="middle">
+              <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+                <button class="btn  btn-danger" type="submit">刪除</button>
+              </form>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  </div>
+</div>
