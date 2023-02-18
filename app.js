@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
+const usePassport = require('./config/passport')
 const app = express()
 const PORT = process.env.PORT
 
@@ -40,6 +41,8 @@ app.use((req, res, next) => {
   res.locals.warning_msg = req.flash('warning_msg') // 設定 warning_msg 訊息
   next()
 })
+
+usePassport(app)
 
 // 設定路由
 app.use(routes)
