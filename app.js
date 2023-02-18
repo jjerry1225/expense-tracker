@@ -34,15 +34,17 @@ app.use(express.urlencoded({ extended: true }))
 // 引用連線mongoose的檔案，對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數。
 require("./config/mongoose")
 
+usePassport(app)
+
 app.use(flash())
 
 app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
   res.locals.success_msg = req.flash('success_msg') // 設定 success_msg 訊息
   res.locals.warning_msg = req.flash('warning_msg') // 設定 warning_msg 訊息
   next()
 })
-
-usePassport(app)
 
 // 設定路由
 app.use(routes)
