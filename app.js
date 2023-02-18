@@ -1,4 +1,5 @@
 const express = require("express")
+const session = require("express-session")
 const exphbs = require("express-handlebars")
 const methodOverride = require("method-override")
 const flash = require('connect-flash')
@@ -17,6 +18,12 @@ const routes = require("./routes")
 app.engine("handlebars", exphbs( {defaultLayout: "main"} ))
 app.set("view engine", "handlebars")
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+}))
+
 // 套用method-override
 app.use(methodOverride("_method"))
 
@@ -25,7 +32,6 @@ app.use(express.urlencoded({ extended: true }))
 
 // 引用連線mongoose的檔案，對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數。
 require("./config/mongoose")
-
 
 app.use(flash())
 
